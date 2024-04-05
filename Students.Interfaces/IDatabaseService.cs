@@ -19,4 +19,6 @@ public interface IDatabaseService
     public Task<Student?> DeleteStudentView(int? id);
 
     public Task<Student?> EditStudentView(int? id);
+
+
 }

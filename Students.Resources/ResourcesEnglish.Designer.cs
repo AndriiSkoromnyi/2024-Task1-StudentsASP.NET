@@ -97,6 +97,15 @@ namespace Students.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Books.
+        /// </summary>
+        public static string Books {
+            get {
+                return ResourceManager.GetString("Books", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to building Web apps with ASP.NET Core.
         /// </summary>
         public static string building_Web_apps_with_ASP_NET_Core {
@@ -201,6 +210,24 @@ namespace Students.Resources {
         public static string Learn_about {
             get {
                 return ResourceManager.GetString("Learn about", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Lecture Rooms.
+        /// </summary>
+        public static string Lecture_Rooms {
+            get {
+                return ResourceManager.GetString("Lecture Rooms", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Lecturers.
+        /// </summary>
+        public static string Lecturers {
+            get {
+                return ResourceManager.GetString("Lecturers", resourceCulture);
             }
         }
         
