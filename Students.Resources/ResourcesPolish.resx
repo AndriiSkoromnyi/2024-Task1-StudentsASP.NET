@@ -123,17 +123,26 @@
   <data name="Are you sure" xml:space="preserve">
     <value>Czy na pewno chcesz to usunąć?</value>
   </data>
+  <data name="Author" xml:space="preserve">
+    <value>Autor</value>
+  </data>
   <data name="Back to List" xml:space="preserve">
     <value>Powrót do listy</value>
   </data>
   <data name="BackToList" xml:space="preserve">
     <value>Powrót do listy</value>
   </data>
+  <data name="Book" xml:space="preserve">
+    <value>Książka</value>
+  </data>
+  <data name="Books" xml:space="preserve">
+    <value>Książki</value>
+  </data>
   <data name="building Web apps with ASP.NET Core" xml:space="preserve">
     <value>tworzenie aplikacji internetowych przy użyciu platformy ASP.NET Core</value>
   </data>
   <data name="Create" xml:space="preserve">
-    <value>Tworzyć</value>
+    <value>Tworzyć </value>
   </data>
   <data name="Create New" xml:space="preserve">
     <value>Tworzyć nowe</value>
@@ -142,7 +151,7 @@
     <value>Kredyty</value>
   </data>
   <data name="Culture" xml:space="preserve">
-    <value>Culture</value>
+    <value>Kultura</value>
   </data>
   <data name="Data" xml:space="preserve">
     <value>Dane</value>
@@ -156,8 +165,20 @@
   <data name="Edit" xml:space="preserve">
     <value>Edytować</value>
   </data>
+  <data name="Floor" xml:space="preserve">
+    <value>Piętro</value>
+  </data>
   <data name="Home" xml:space="preserve">
     <value>Dom</value>
+  </data>
+  <data name="Index of Books" xml:space="preserve">
+    <value>Indeks książek</value>
+  </data>
+  <data name="Index of lecture rooms" xml:space="preserve">
+    <value>Indeks sal wykładowych</value>
+  </data>
+  <data name="Index of Lecturers" xml:space="preserve">
+    <value>Indeks wykładowców</value>
   </data>
   <data name="Index of students" xml:space="preserve">
     <value>Indeks studentów</value>
@@ -168,11 +189,26 @@
   <data name="Learn about" xml:space="preserve">
     <value>Uczyć się o</value>
   </data>
+  <data name="Lecture Room" xml:space="preserve">
+    <value>Sala Wykładowa</value>
+  </data>
+  <data name="Lecture Rooms" xml:space="preserve">
+    <value>Sale wykładowe</value>
+  </data>
+  <data name="Lecturer" xml:space="preserve">
+    <value>Wykładowca</value>
+  </data>
+  <data name="Lecturers" xml:space="preserve">
+    <value>Wykładowcy</value>
+  </data>
   <data name="Major" xml:space="preserve">
     <value>Główny</value>
   </data>
   <data name="Name" xml:space="preserve">
-    <value>Imię </value>
+    <value>Nazwa</value>
+  </data>
+  <data name="Number" xml:space="preserve">
+    <value>Numer</value>
   </data>
   <data name="Privacy" xml:space="preserve">
     <value>Prywatność</value>
@@ -190,7 +226,7 @@
     <value>Studenci</value>
   </data>
   <data name="Subject" xml:space="preserve">
-    <value>Przedmiot</value>
+    <value>Temat</value>
   </data>
   <data name="Subjects" xml:space="preserve">
     <value>Przedmioty</value>

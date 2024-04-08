@@ -1,23 +1,29 @@
 ﻿@model Students.Common.Models.LectureRoom
+@using Students.Interfaces
+@using System.Globalization
+
+
+@inject ISharedResourcesService sharedResourcesService
 
 @{
+    CultureInfo cultureInfo = CultureInfo.GetCultureInfo(Context.Session.GetString("Culture") ?? "en-US");
     ViewData["Title"] = "Details";
 }
 
-<h1>Details</h1>
+<h1>@sharedResourcesService.GetString("Details", cultureInfo)</h1>
 
 <div>
-    <h4>LectureRoom</h4>
+    <h4>@sharedResourcesService.GetString("Lecture Room", cultureInfo)</h4>
     <hr />
     <dl class="row">
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Number)
+            @sharedResourcesService.GetString("Number", cultureInfo)
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.Number)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Floor)
+            @sharedResourcesService.GetString("Floor", cultureInfo)
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.Floor)
@@ -25,6 +31,6 @@
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Edit" asp-route-id="@Model?.Id">@sharedResourcesService.GetString("Edit", cultureInfo)</a> |
+    <a asp-action="Index">@sharedResourcesService.GetString("Back to List", cultureInfo)</a>
 </div>

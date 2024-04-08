@@ -79,6 +79,15 @@ namespace Students.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to 著者.
+        /// </summary>
+        public static string Author {
+            get {
+                return ResourceManager.GetString("Author", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to リストに戻る.
         /// </summary>
         public static string Back_to_List {
@@ -93,6 +102,24 @@ namespace Students.Resources {
         public static string BackToList {
             get {
                 return ResourceManager.GetString("BackToList", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 本.
+        /// </summary>
+        public static string Book {
+            get {
+                return ResourceManager.GetString("Book", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 本.
+        /// </summary>
+        public static string Books {
+            get {
+                return ResourceManager.GetString("Books", resourceCulture);
             }
         }
         
@@ -169,11 +196,47 @@ namespace Students.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to 床.
+        /// </summary>
+        public static string Floor {
+            get {
+                return ResourceManager.GetString("Floor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to 家.
         /// </summary>
         public static string Home {
             get {
                 return ResourceManager.GetString("Home", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 書籍の索引.
+        /// </summary>
+        public static string Index_of_Books {
+            get {
+                return ResourceManager.GetString("Index of Books", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 講義室インデックス.
+        /// </summary>
+        public static string Index_of_lecture_rooms {
+            get {
+                return ResourceManager.GetString("Index of lecture rooms", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 講師一覧.
+        /// </summary>
+        public static string Index_of_Lecturers {
+            get {
+                return ResourceManager.GetString("Index of Lecturers", resourceCulture);
             }
         }
         
@@ -205,6 +268,42 @@ namespace Students.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to 講義室.
+        /// </summary>
+        public static string Lecture_Room {
+            get {
+                return ResourceManager.GetString("Lecture Room", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 講義室.
+        /// </summary>
+        public static string Lecture_Rooms {
+            get {
+                return ResourceManager.GetString("Lecture Rooms", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 講師.
+        /// </summary>
+        public static string Lecturer {
+            get {
+                return ResourceManager.GetString("Lecturer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 講師.
+        /// </summary>
+        public static string Lecturers {
+            get {
+                return ResourceManager.GetString("Lecturers", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to 選考科目.
         /// </summary>
         public static string Major {
@@ -219,6 +318,15 @@ namespace Students.Resources {
         public static string Name {
             get {
                 return ResourceManager.GetString("Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 番号.
+        /// </summary>
+        public static string Number {
+            get {
+                return ResourceManager.GetString("Number", resourceCulture);
             }
         }
         

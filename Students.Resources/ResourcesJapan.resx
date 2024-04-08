@@ -123,11 +123,20 @@
   <data name="Are you sure" xml:space="preserve">
     <value>これを削除してもよろしいですか?</value>
   </data>
+  <data name="Author" xml:space="preserve">
+    <value>著者</value>
+  </data>
   <data name="Back to List" xml:space="preserve">
     <value>リストに戻る</value>
   </data>
   <data name="BackToList" xml:space="preserve">
     <value>リストに戻る</value>
+  </data>
+  <data name="Book" xml:space="preserve">
+    <value>本</value>
+  </data>
+  <data name="Books" xml:space="preserve">
+    <value>本</value>
   </data>
   <data name="building Web apps with ASP.NET Core" xml:space="preserve">
     <value>ASP.NET Core を使用した Web アプリの構築</value>
@@ -156,8 +165,20 @@
   <data name="Edit" xml:space="preserve">
     <value>編集</value>
   </data>
+  <data name="Floor" xml:space="preserve">
+    <value>床</value>
+  </data>
   <data name="Home" xml:space="preserve">
     <value>家</value>
+  </data>
+  <data name="Index of Books" xml:space="preserve">
+    <value>書籍の索引</value>
+  </data>
+  <data name="Index of lecture rooms" xml:space="preserve">
+    <value>講義室インデックス</value>
+  </data>
+  <data name="Index of Lecturers" xml:space="preserve">
+    <value>講師一覧</value>
   </data>
   <data name="Index of students" xml:space="preserve">
     <value>学生のインデックス</value>
@@ -168,11 +189,26 @@
   <data name="Learn about" xml:space="preserve">
     <value>について学ぶ</value>
   </data>
+  <data name="Lecture Room" xml:space="preserve">
+    <value>講義室</value>
+  </data>
+  <data name="Lecture Rooms" xml:space="preserve">
+    <value>講義室</value>
+  </data>
+  <data name="Lecturer" xml:space="preserve">
+    <value>講師</value>
+  </data>
+  <data name="Lecturers" xml:space="preserve">
+    <value>講師</value>
+  </data>
   <data name="Major" xml:space="preserve">
     <value>選考科目</value>
   </data>
   <data name="Name" xml:space="preserve">
     <value>名前</value>
+  </data>
+  <data name="Number" xml:space="preserve">
+    <value>番号</value>
   </data>
   <data name="Privacy" xml:space="preserve">
     <value>プライバシー</value>

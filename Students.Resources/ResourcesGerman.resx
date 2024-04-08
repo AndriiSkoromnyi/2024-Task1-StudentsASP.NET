@@ -123,11 +123,20 @@
   <data name="Are you sure" xml:space="preserve">
     <value>Sind Sie sicher, dass Sie dies löschen möchten?</value>
   </data>
+  <data name="Author" xml:space="preserve">
+    <value>Autor</value>
+  </data>
   <data name="Back to List" xml:space="preserve">
     <value>Zurück zur Liste</value>
   </data>
   <data name="BackToList" xml:space="preserve">
     <value>Zurück zur Liste</value>
+  </data>
+  <data name="Book" xml:space="preserve">
+    <value>Buch</value>
+  </data>
+  <data name="Books" xml:space="preserve">
+    <value>Bücher</value>
   </data>
   <data name="building Web apps with ASP.NET Core" xml:space="preserve">
     <value>Erstellen von Webanwendungen mit ASP.NET Core</value>
@@ -156,8 +165,20 @@
   <data name="Edit" xml:space="preserve">
     <value>Bearbeiten</value>
   </data>
+  <data name="Floor" xml:space="preserve">
+    <value>Boden</value>
+  </data>
   <data name="Home" xml:space="preserve">
     <value>Heim</value>
+  </data>
+  <data name="Index of Books" xml:space="preserve">
+    <value>Verzeichnis der Bücher</value>
+  </data>
+  <data name="Index of lecture rooms" xml:space="preserve">
+    <value>Verzeichnis der Hörsäle</value>
+  </data>
+  <data name="Index of Lecturers" xml:space="preserve">
+    <value>Dozentenverzeichnis</value>
   </data>
   <data name="Index of students" xml:space="preserve">
     <value>Index der Studierenden</value>
@@ -168,11 +189,26 @@
   <data name="Learn about" xml:space="preserve">
     <value>Lernen</value>
   </data>
+  <data name="Lecture Room" xml:space="preserve">
+    <value>Hörsaal</value>
+  </data>
+  <data name="Lecture Rooms" xml:space="preserve">
+    <value>Hörsäle</value>
+  </data>
+  <data name="Lecturer" xml:space="preserve">
+    <value>Dozent</value>
+  </data>
+  <data name="Lecturers" xml:space="preserve">
+    <value>Dozenten</value>
+  </data>
   <data name="Major" xml:space="preserve">
     <value>Wesentlich</value>
   </data>
   <data name="Name" xml:space="preserve">
     <value>Name</value>
+  </data>
+  <data name="Number" xml:space="preserve">
+    <value>Nummer</value>
   </data>
   <data name="Privacy" xml:space="preserve">
     <value>Privatsphäre</value>

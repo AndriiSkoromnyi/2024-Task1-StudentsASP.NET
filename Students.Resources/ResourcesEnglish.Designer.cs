@@ -79,6 +79,15 @@ namespace Students.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Author.
+        /// </summary>
+        public static string Author {
+            get {
+                return ResourceManager.GetString("Author", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Back to List.
         /// </summary>
         public static string Back_to_List {
@@ -93,6 +102,15 @@ namespace Students.Resources {
         public static string BackToList {
             get {
                 return ResourceManager.GetString("BackToList", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Book.
+        /// </summary>
+        public static string Book {
+            get {
+                return ResourceManager.GetString("Book", resourceCulture);
             }
         }
         
@@ -178,11 +196,47 @@ namespace Students.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Floor.
+        /// </summary>
+        public static string Floor {
+            get {
+                return ResourceManager.GetString("Floor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Home.
         /// </summary>
         public static string Home {
             get {
                 return ResourceManager.GetString("Home", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Index of Books.
+        /// </summary>
+        public static string Index_of_Books {
+            get {
+                return ResourceManager.GetString("Index of Books", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Index of lecture rooms.
+        /// </summary>
+        public static string Index_of_lecture_rooms {
+            get {
+                return ResourceManager.GetString("Index of lecture rooms", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Index of Lecturers.
+        /// </summary>
+        public static string Index_of_Lecturers {
+            get {
+                return ResourceManager.GetString("Index of Lecturers", resourceCulture);
             }
         }
         
@@ -214,11 +268,29 @@ namespace Students.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Lecture Room.
+        /// </summary>
+        public static string Lecture_Room {
+            get {
+                return ResourceManager.GetString("Lecture Room", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Lecture Rooms.
         /// </summary>
         public static string Lecture_Rooms {
             get {
                 return ResourceManager.GetString("Lecture Rooms", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Lecturer.
+        /// </summary>
+        public static string Lecturer {
+            get {
+                return ResourceManager.GetString("Lecturer", resourceCulture);
             }
         }
         
@@ -246,6 +318,15 @@ namespace Students.Resources {
         public static string Name {
             get {
                 return ResourceManager.GetString("Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Number.
+        /// </summary>
+        public static string Number {
+            get {
+                return ResourceManager.GetString("Number", resourceCulture);
             }
         }
         
