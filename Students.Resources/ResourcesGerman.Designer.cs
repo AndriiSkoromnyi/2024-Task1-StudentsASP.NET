@@ -331,6 +331,15 @@ namespace Students.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Postleitzahl.
+        /// </summary>
+        public static string PostalCode {
+            get {
+                return ResourceManager.GetString("PostalCode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Privatsphäre.
         /// </summary>
         public static string Privacy {

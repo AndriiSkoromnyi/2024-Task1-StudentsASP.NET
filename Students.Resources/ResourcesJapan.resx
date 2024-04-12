@@ -210,6 +210,9 @@
   <data name="Number" xml:space="preserve">
     <value>番号</value>
   </data>
+  <data name="PostalCode" xml:space="preserve">
+    <value>郵便番号</value>
+  </data>
   <data name="Privacy" xml:space="preserve">
     <value>プライバシー</value>
   </data>

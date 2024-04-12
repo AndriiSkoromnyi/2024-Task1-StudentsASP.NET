@@ -210,6 +210,9 @@
   <data name="Number" xml:space="preserve">
     <value>Numer</value>
   </data>
+  <data name="PostalCode" xml:space="preserve">
+    <value>Kod pocztowy</value>
+  </data>
   <data name="Privacy" xml:space="preserve">
     <value>Prywatność</value>
   </data>

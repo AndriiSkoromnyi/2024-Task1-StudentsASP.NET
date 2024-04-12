@@ -7,6 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.4" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Compile Update="ResourcesJapan.Designer.cs">
       <DependentUpon>ResourcesJapan.resx</DependentUpon>
       <DesignTime>True</DesignTime>

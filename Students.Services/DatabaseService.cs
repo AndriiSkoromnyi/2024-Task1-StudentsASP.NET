@@ -25,48 +25,69 @@ public class DatabaseService : IDatabaseService
 
     #region Public Methods
 
-    public bool EditStudent(int id, string name, int age, string major, int[] subjectIdDst)
+    //public bool EditStudent(int id, string name, int age, string major, int[] subjectIdDst)
+    //{
+    //    var result = false;
+
+    //    // Find the student
+    //    var student = _context.Student.Find(id);
+    //    if (student != null)
+    //    {
+    //        // Update the student's properties
+    //        student.Name = name;
+    //        student.Age = age;
+    //        student.Major = major;
+
+    //        // Get the chosen subjects
+    //        var chosenSubjects = _context.Subject
+    //            .Where(s => subjectIdDst.Contains(s.Id))
+    //            .ToList();
+
+    //        // Remove the existing StudentSubject entities for the student
+    //        var studentSubjects = _context.StudentSubject
+    //            .Where(ss => ss.StudentId == id)
+    //            .ToList();
+    //        _context.StudentSubject.RemoveRange(studentSubjects);
+
+    //        // Add new StudentSubject entities for the chosen subjects
+    //        foreach (var subject in chosenSubjects)
+    //        {
+    //            var studentSubject = new StudentSubject
+    //            {
+    //                Student = student,
+    //                Subject = subject
+    //            };
+    //            _context.StudentSubject.Add(studentSubject);
+    //        }
+
+    //        // Save changes to the database
+    //        var resultInt = _context.SaveChanges();
+    //        result = resultInt > 0;
+    //    }
+
+    //    return result;
+    //}
+
+    public async Task<Student> StudentEdit(Student student, int[] subjectIdDst)
     {
-        var result = false;
 
-        // Find the student
-        var student = _context.Student.Find(id);
-        if (student != null)
+        var chosenSubjects = _context.Subject
+            .Where(s => subjectIdDst.Contains(s.Id))
+            .ToList();
+        var availableSubjects = _context.Subject
+            .Where(s => !subjectIdDst.Contains(s.Id))
+            .ToList();
+        student.AvailableSubjects = availableSubjects;
+
+        foreach (var chosenSubject in chosenSubjects)
         {
-            // Update the student's properties
-            student.Name = name;
-            student.Age = age;
-            student.Major = major;
-
-            // Get the chosen subjects
-            var chosenSubjects = _context.Subject
-                .Where(s => subjectIdDst.Contains(s.Id))
-                .ToList();
-
-            // Remove the existing StudentSubject entities for the student
-            var studentSubjects = _context.StudentSubject
-                .Where(ss => ss.StudentId == id)
-                .ToList();
-            _context.StudentSubject.RemoveRange(studentSubjects);
-
-            // Add new StudentSubject entities for the chosen subjects
-            foreach (var subject in chosenSubjects)
-            {
-                var studentSubject = new StudentSubject
-                {
-                    Student = student,
-                    Subject = subject
-                };
-                _context.StudentSubject.Add(studentSubject);
-            }
-
-            // Save changes to the database
-            var resultInt = _context.SaveChanges();
-            result = resultInt > 0;
+            student.AddSubject(chosenSubject);
         }
-
-        return result;
+        _context.Update(student);
+        await _context.SaveChangesAsync();
+        return student;
     }
+
 
     public Student? DisplayStudent(int? id)
     {
@@ -118,9 +139,8 @@ public class DatabaseService : IDatabaseService
 
     }
 
-    public async Task<bool> StudentCreate(int id, string name, int age, string major, int[] subjectIdDst)
+    public async Task<Student> StudentCreate(Student student, int[] subjectIdDst)
     {
-        var result = false;
 
         var chosenSubjects = _context.Subject
             .Where(s => subjectIdDst.Contains(s.Id))
@@ -128,23 +148,15 @@ public class DatabaseService : IDatabaseService
         var availableSubjects = _context.Subject
             .Where(s => !subjectIdDst.Contains(s.Id))
             .ToList();
-        var student = new Student()
-        {
-            Id = id,
-            Name = name,
-            Age = age,
-            Major = major,
-            AvailableSubjects = availableSubjects
-        };
+        student.AvailableSubjects = availableSubjects;
+
         foreach (var chosenSubject in chosenSubjects)
         {
             student.AddSubject(chosenSubject);
         }
-        await _context.Student.AddAsync(student);
-        var saveResult = await _context.SaveChangesAsync();
-        result = saveResult > 0;
-
-        return result;
+        _context.Add(student);
+        await _context.SaveChangesAsync();
+        return student;
     }
 
     public async Task<Student?> DeleteStudentView(int? id)

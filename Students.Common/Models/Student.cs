@@ -1,3 +1,4 @@
+using Students.Common.ValidationAttributes;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -8,6 +9,7 @@ public class Student
     public int Id { get; set; }
 
     [Required]
+    [NameValidation]
     [StringLength(100)]
     public string Name { get; set; } = string.Empty;
 
@@ -18,6 +20,10 @@ public class Student
     [StringLength(100)]
     public string Major { get; set; } = string.Empty;
 
+    [Required]
+    [PolishPostalCode]
+    public string PostalCode { get; set; } = string.Empty;
+
     public ICollection<StudentSubject> StudentSubjects { get; set; } = new List<StudentSubject>();
 
     [NotMapped]
@@ -27,11 +33,12 @@ public class Student
     {
     }
 
-    public Student(string name, int age, string major)
+    public Student(string name, int age, string major, string postalcode)
     {
         Name = name;
         Age = age;
         Major = major;
+        PostalCode = postalcode;
     }
 
     public void AddSubject(Subject subject)
