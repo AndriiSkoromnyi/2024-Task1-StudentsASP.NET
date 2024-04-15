@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Students.Common.Data;
 
@@ -11,9 +12,11 @@ using Students.Common.Data;
 namespace Students.Common.Migrations
 {
     [DbContext(typeof(StudentsContext))]
-    partial class StudentsContextModelSnapshot : ModelSnapshot
+    [Migration("20240415155327_RelacionMigration")]
+    partial class RelacionMigration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -188,7 +191,7 @@ namespace Students.Common.Migrations
             modelBuilder.Entity("Students.Common.Models.Subject", b =>
                 {
                     b.HasOne("Students.Common.Models.LectureRoom", "LectureRoom")
-                        .WithMany("Subjects")
+                        .WithMany("AvaibleStudentSubjects")
                         .HasForeignKey("LectureRoomId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -198,7 +201,7 @@ namespace Students.Common.Migrations
 
             modelBuilder.Entity("Students.Common.Models.LectureRoom", b =>
                 {
-                    b.Navigation("Subjects");
+                    b.Navigation("AvaibleStudentSubjects");
                 });
 
             modelBuilder.Entity("Students.Common.Models.Student", b =>

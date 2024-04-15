@@ -7,22 +7,31 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Students.Common.Data;
 using Students.Common.Models;
+using Students.Interfaces;
+using Students.Services;
 
 namespace Students.Web.Controllers
 {
     public class LectureRoomsController : Controller
     {
-        private readonly StudentsContext _context;
+        private readonly ILogger _logger;
+        private readonly IDatabaseService _databaseService;
 
-        public LectureRoomsController(StudentsContext context)
+        public LectureRoomsController(
+            ILogger<SubjectsController> logger,
+            IDatabaseService databaseService)
         {
-            _context = context;
+            _logger = logger;
+            _databaseService = databaseService;
         }
 
         // GET: LectureRooms
         public async Task<IActionResult> Index()
         {
-            return View(await _context.LectureRoom.ToListAsync());
+            IActionResult result = View();
+            var model = await _databaseService.LectureRoomList();
+            result = View(model);
+            return result;
         }
 
         // GET: LectureRooms/Details/5
@@ -33,8 +42,7 @@ namespace Students.Web.Controllers
                 return NotFound();
             }
 
-            var lectureRoom = await _context.LectureRoom
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var lectureRoom = await _databaseService.LectureRoomDetailsDelete(id);
             if (lectureRoom == null)
             {
                 return NotFound();
@@ -44,9 +52,21 @@ namespace Students.Web.Controllers
         }
 
         // GET: LectureRooms/Create
-        public IActionResult Create()
+
+        public async Task<IActionResult> Create()
         {
-            return View();
+            IActionResult result = View();
+            try
+            {
+                var newStudent = await _databaseService.LectureRoomCreateView();
+                result = View(newStudent);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("Exception caught: " + ex.Message);
+            }
+
+            return result;
         }
 
         // POST: LectureRooms/Create
@@ -54,12 +74,12 @@ namespace Students.Web.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Number,Floor")] LectureRoom lectureRoom)
+        public async Task<IActionResult> Create([Bind("Id,Number,Floor")] LectureRoom lectureRoom, int[] subjectIdDst)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(lectureRoom);
-                await _context.SaveChangesAsync();
+
+                await _databaseService.LectureRoomCreate(lectureRoom, subjectIdDst);
                 return RedirectToAction(nameof(Index));
             }
             return View(lectureRoom);
@@ -72,8 +92,8 @@ namespace Students.Web.Controllers
             {
                 return NotFound();
             }
-
-            var lectureRoom = await _context.LectureRoom.FindAsync(id);
+            
+            var lectureRoom = await _databaseService.LectureRoomEditView(id);
             if (lectureRoom == null)
             {
                 return NotFound();
@@ -86,7 +106,7 @@ namespace Students.Web.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Number,Floor")] LectureRoom lectureRoom)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Number,Floor")] LectureRoom lectureRoom, int[] subjectIdDst)
         {
             if (id != lectureRoom.Id)
             {
@@ -95,22 +115,7 @@ namespace Students.Web.Controllers
 
             if (ModelState.IsValid)
             {
-                try
-                {
-                    _context.Update(lectureRoom);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!LectureRoomExists(lectureRoom.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
+                await _databaseService.LectureRoomEdit(lectureRoom, subjectIdDst);
                 return RedirectToAction(nameof(Index));
             }
             return View(lectureRoom);
@@ -124,8 +129,7 @@ namespace Students.Web.Controllers
                 return NotFound();
             }
 
-            var lectureRoom = await _context.LectureRoom
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var lectureRoom = await _databaseService.LectureRoomDetailsDelete(id);
             if (lectureRoom == null)
             {
                 return NotFound();
@@ -139,19 +143,8 @@ namespace Students.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var lectureRoom = await _context.LectureRoom.FindAsync(id);
-            if (lectureRoom != null)
-            {
-                _context.LectureRoom.Remove(lectureRoom);
-            }
-
-            await _context.SaveChangesAsync();
+            var lectureRoom = await _databaseService.LectureRoomDeleteConfirmed(id);
             return RedirectToAction(nameof(Index));
-        }
-
-        private bool LectureRoomExists(int id)
-        {
-            return _context.LectureRoom.Any(e => e.Id == id);
         }
     }
 }

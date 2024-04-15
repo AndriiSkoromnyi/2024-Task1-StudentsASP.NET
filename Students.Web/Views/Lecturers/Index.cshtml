@@ -7,7 +7,7 @@
     CultureInfo cultureInfo = CultureInfo.GetCultureInfo(Context.Session.GetString("Culture") ?? "en-US");
     ViewData["Title"] = "Index";
 }
-<h1>@sharedResourcesService.GetString("Index of  Lecturers", cultureInfo)</h1>
+<h1>@sharedResourcesService.GetString("Index of Lecturers", cultureInfo)</h1>
 
 <p>
     <a asp-action="Create">@sharedResourcesService.GetString("Create New", cultureInfo)</a>

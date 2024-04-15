@@ -15,7 +15,7 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Create">
+        <form asp-action="Create" onsubmit="selectChosenSubjects()">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Number" class="control-label">@sharedResourcesService.GetString("Number", cultureInfo)</label>
@@ -27,6 +27,11 @@
                 <input asp-for="Floor" class="form-control" />
                 <span asp-validation-for="Floor" class="text-danger"></span>
             </div>
+            
+            <div class="form-group">
+                <partial name="_LectureRoomChoicePartial" model="Model"/>
+            </div>
+
             <div class="form-group">
                 <input type="submit" value="@sharedResourcesService.GetString("Create", cultureInfo)" class="btn btn-primary" />
             </div>
@@ -39,5 +44,8 @@
 </div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script src="~/js/student_subjects-1.0.2.js"></script>
 }

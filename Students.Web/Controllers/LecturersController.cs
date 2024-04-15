@@ -7,22 +7,30 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Students.Common.Data;
 using Students.Common.Models;
+using Students.Interfaces;
 
 namespace Students.Web.Controllers
 {
     public class LecturersController : Controller
     {
-        private readonly StudentsContext _context;
+        private readonly ILogger _logger;
+        private readonly IDatabaseService _databaseService;
 
-        public LecturersController(StudentsContext context)
+        public LecturersController(
+            ILogger<SubjectsController> logger,
+            IDatabaseService databaseService)
         {
-            _context = context;
+            _logger = logger;
+            _databaseService = databaseService;
         }
 
         // GET: Lecturers
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Lecturer.ToListAsync());
+            IActionResult result = View();
+            var model = await _databaseService.LecturerList();
+            result = View(model);
+            return result;
         }
 
         // GET: Lecturers/Details/5
@@ -33,8 +41,8 @@ namespace Students.Web.Controllers
                 return NotFound();
             }
 
-            var lecturer = await _context.Lecturer
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var lecturer = await _databaseService.LecturerDetailsDelete(id);
+
             if (lecturer == null)
             {
                 return NotFound();
@@ -58,8 +66,7 @@ namespace Students.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Add(lecturer);
-                await _context.SaveChangesAsync();
+                await _databaseService.LecturerCreate(lecturer);
                 return RedirectToAction(nameof(Index));
             }
             return View(lecturer);
@@ -73,7 +80,7 @@ namespace Students.Web.Controllers
                 return NotFound();
             }
 
-            var lecturer = await _context.Lecturer.FindAsync(id);
+            var lecturer = await _databaseService.LecturerEditView(id);
             if (lecturer == null)
             {
                 return NotFound();
@@ -95,22 +102,7 @@ namespace Students.Web.Controllers
 
             if (ModelState.IsValid)
             {
-                try
-                {
-                    _context.Update(lecturer);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!LecturerExists(lecturer.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
+                await _databaseService.LecturerEdit(lecturer);
                 return RedirectToAction(nameof(Index));
             }
             return View(lecturer);
@@ -124,8 +116,7 @@ namespace Students.Web.Controllers
                 return NotFound();
             }
 
-            var lecturer = await _context.Lecturer
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var lecturer = await _databaseService.LecturerDetailsDelete(id);
             if (lecturer == null)
             {
                 return NotFound();
@@ -139,19 +130,8 @@ namespace Students.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var lecturer = await _context.Lecturer.FindAsync(id);
-            if (lecturer != null)
-            {
-                _context.Lecturer.Remove(lecturer);
-            }
-
-            await _context.SaveChangesAsync();
+            var lecturer = await _databaseService.LecturerDeleteConfirmed(id);
             return RedirectToAction(nameof(Index));
-        }
-
-        private bool LecturerExists(int id)
-        {
-            return _context.Lecturer.Any(e => e.Id == id);
         }
     }
 }

@@ -9,9 +9,6 @@
     CultureInfo cultureInfo = CultureInfo.GetCultureInfo(Context.Session.GetString("Culture") ?? "en-US");
     ViewData["Title"] = "Edit";
 }
-
-@sharedResourcesService.GetString("", cultureInfo)
-
 <h1>@sharedResourcesService.GetString("Edit", cultureInfo)</h1>
 
 <h4>@sharedResourcesService.GetString("Student", cultureInfo)</h4>

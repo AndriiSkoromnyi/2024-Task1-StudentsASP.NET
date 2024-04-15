@@ -7,22 +7,31 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Students.Common.Data;
 using Students.Common.Models;
+using Students.Interfaces;
 
 namespace Students.Web.Controllers
 {
     public class BooksController : Controller
     {
-        private readonly StudentsContext _context;
+        private readonly ILogger _logger;
+        private readonly IDatabaseService _databaseService;
 
-        public BooksController(StudentsContext context)
+        public BooksController(
+            ILogger<BooksController> logger,
+            IDatabaseService databaseService)
         {
-            _context = context;
+            _logger = logger;
+            _databaseService = databaseService;
         }
 
         // GET: Books
+
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Book.ToListAsync());
+            IActionResult result = View();
+            var model = await _databaseService.BookList();
+            result = View(model);
+            return result;
         }
 
         // GET: Books/Details/5
@@ -33,8 +42,8 @@ namespace Students.Web.Controllers
                 return NotFound();
             }
 
-            var book = await _context.Book
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var book = await _databaseService.BookDetailsDelete(id);
+
             if (book == null)
             {
                 return NotFound();
@@ -57,9 +66,8 @@ namespace Students.Web.Controllers
         public async Task<IActionResult> Create([Bind("Id,Name,Author")] Book book)
         {
             if (ModelState.IsValid)
-            {
-                _context.Add(book);
-                await _context.SaveChangesAsync();
+            {  
+                await _databaseService.BookCreate(book); 
                 return RedirectToAction(nameof(Index));
             }
             return View(book);
@@ -73,7 +81,7 @@ namespace Students.Web.Controllers
                 return NotFound();
             }
 
-            var book = await _context.Book.FindAsync(id);
+            var book = await _databaseService.BookEditView(id);
             if (book == null)
             {
                 return NotFound();
@@ -95,22 +103,7 @@ namespace Students.Web.Controllers
 
             if (ModelState.IsValid)
             {
-                try
-                {
-                    _context.Update(book);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!BookExists(book.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
+                await _databaseService.BookEdit(book);
                 return RedirectToAction(nameof(Index));
             }
             return View(book);
@@ -124,8 +117,7 @@ namespace Students.Web.Controllers
                 return NotFound();
             }
 
-            var book = await _context.Book
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var book = await _databaseService.BookDetailsDelete(id);
             if (book == null)
             {
                 return NotFound();
@@ -139,19 +131,8 @@ namespace Students.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var book = await _context.Book.FindAsync(id);
-            if (book != null)
-            {
-                _context.Book.Remove(book);
-            }
-
-            await _context.SaveChangesAsync();
+            var book = await _databaseService.BookDeleteConfirmed(id);
             return RedirectToAction(nameof(Index));
-        }
-
-        private bool BookExists(int id)
-        {
-            return _context.Book.Any(e => e.Id == id);
         }
     }
 }
