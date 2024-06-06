@@ -1,8 +1,8 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using Students.Common.Data;
 using Students.Common.Models;
 using Students.Interfaces;
-using Microsoft.EntityFrameworkCore;
 
 namespace Students.Services;
 
@@ -23,29 +23,64 @@ public class DatabaseService : IDatabaseService
 
     #endregion // Ctor and Properties
 
-    #region Public Methods
+    #region Students
+
+    public async Task<Student?> EditStudentView(int? id)
+    {
+        var student = await _context.Student.FindAsync(id);
+        var chosenSubjects = _context.StudentSubject
+                .Where(ss => ss.StudentId == id)
+                .Select(ss => ss.Subject)
+                .ToList();
+        var availableSubjects = _context.Subject
+            .Where(s => !chosenSubjects.Contains(s))
+            .ToList();
+        student.StudentSubjects = _context.StudentSubject
+            .Where(x => x.StudentId == id)
+            .ToList();
+        student.AvailableSubjects = availableSubjects;
+        return student;
+    }
 
     public async Task<Student> StudentEdit(Student student, int[] subjectIdDst)
     {
 
-        var chosenSubjects = _context.Subject
-            .Where(s => subjectIdDst.Contains(s.Id))
-            .ToList();
-        var availableSubjects = _context.Subject
-            .Where(s => !subjectIdDst.Contains(s.Id))
-            .ToList();
-        student.AvailableSubjects = availableSubjects;
-       
-        foreach (var chosenSubject in chosenSubjects)
+        var existingStudent = await _context.Student.FindAsync(student.Id);
+        try
         {
-            student.AddSubject(chosenSubject);
-        }
-        
-        _context.Update(student);
-        await _context.SaveChangesAsync();
-        return student;
-    }
+            if (existingStudent != null)
+            {
+                existingStudent.Name = student.Name;
+                existingStudent.Age = student.Age;
+                existingStudent.Major = student.Major;
 
+                var studentSubjects = await _context.StudentSubject
+                    .Where(ss => ss.StudentId == student.Id)
+                    .ToListAsync();
+                _context.StudentSubject.RemoveRange(studentSubjects);
+
+                var chosenSubjects = await _context.Subject
+                    .Where(s => subjectIdDst.Contains(s.Id))
+                    .ToListAsync();
+                foreach (var subject in chosenSubjects)
+                {
+                    var studentSubject = new StudentSubject
+                    {
+                        Student = existingStudent,
+                        Subject = subject
+                    };
+                    _context.StudentSubject.Add(studentSubject);
+                }
+                await _context.SaveChangesAsync();
+            }
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError("Exception caught: " + ex.Message);
+        }
+
+        return existingStudent;
+    }
 
     public Student? DisplayStudent(int? id)
     {
@@ -71,10 +106,6 @@ public class DatabaseService : IDatabaseService
         return student;
     }
 
-    /// <summary>
-    /// Get StudentList
-    /// </summary>
-    /// <returns></returns>
     public async Task<List<Student>> StudentList()
     {
         var model = await _context.Student.ToListAsync();
@@ -135,25 +166,22 @@ public class DatabaseService : IDatabaseService
         return newStudent;
     }
 
-    public async Task<Student?> EditStudentView(int? id)
+    public async Task<bool> StudentDeleteConfirmed(int id)
     {
         var student = await _context.Student.FindAsync(id);
-        var chosenSubjects = _context.StudentSubject
-                .Where(ss => ss.StudentId == id)
-                .Select(ss => ss.Subject)
-                .ToList();
-        var availableSubjects = _context.Subject
-            .Where(s => !chosenSubjects.Contains(s))
-            .ToList();
-        student.StudentSubjects = _context.StudentSubject
-            .Where(x => x.StudentId == id)
-            .ToList();
+        if (student != null)
+        {
+            _context.Student.Remove(student);
+        }
 
-        return student;
+        var resultInt = await _context.SaveChangesAsync();
+        var result = resultInt > 0;
+        return result;
     }
 
+    #endregion //Students
 
-    //Subject
+    #region Subject
 
     public async Task<List<Subject>> SubjectList()
     {
@@ -200,7 +228,9 @@ public class DatabaseService : IDatabaseService
         return result;
     }
 
-    //Book
+    #endregion Subject
+
+    #region Book
     public async Task<List<Book>> BookList()
     {
         var model = await _context.Book.ToListAsync();
@@ -244,8 +274,9 @@ public class DatabaseService : IDatabaseService
         var result = resultInt > 0;
         return result;
     }
+    #endregion
 
-    //Lecturer
+    #region Lecturer
     public async Task<List<Lecturer>> LecturerList()
     {
         var model = await _context.Lecturer.ToListAsync();
@@ -289,8 +320,9 @@ public class DatabaseService : IDatabaseService
         var result = resultInt > 0;
         return result;
     }
+    #endregion Lecturer
 
-    //LectureRooms
+    #region LectureRooms
     public async Task<List<LectureRoom>> LectureRoomList()
     {
         var model = await _context.LectureRoom.ToListAsync();
@@ -301,6 +333,14 @@ public class DatabaseService : IDatabaseService
     {
         var lectureRoom = await _context.LectureRoom
                 .FirstOrDefaultAsync(m => m.Id == id);
+        if (lectureRoom is not null)
+        {
+            var studentSubjects = _context.Subject
+                .Where(ss => ss.LectureRoom.Id == id)
+                .Include(ss => ss.LectureRoom)
+                .ToList();
+            lectureRoom.Subjects = studentSubjects;
+        }
         return lectureRoom;
     }
 
@@ -325,33 +365,73 @@ public class DatabaseService : IDatabaseService
         return lectureRoom;
     }
 
-    public async Task<LectureRoom?> LectureRoomEditView(int? id)
+    public async Task<LectureRoom> LectureRoomEditView(int? id)
     {
-        var listOfSubjects = await _context.Subject
-                .ToListAsync();
-        var lectureRoom = await _context.LectureRoom.FindAsync(id);
-        return lectureRoom;
+        try
+        {
+            var lecturer = await _context.LectureRoom
+               .Include(l => l.Subjects)
+               .FirstOrDefaultAsync(l => l.Id == id);
+
+            if (lecturer != null)
+            {
+                var chosenSubjects = lecturer.Subjects;
+                var subjectsWithLecturers = await _context.LectureRoom
+                    .Where(l => l.Id != id)
+                    .SelectMany(l => l.Subjects)
+                    .Distinct()
+                    .ToListAsync();
+
+                var availableSubjects = await _context.Subject
+                    .Where(s => !chosenSubjects.Contains(s) && !subjectsWithLecturers.Contains(s))
+                    .ToListAsync();
+
+                lecturer.AvailableSubjects = availableSubjects;
+
+                return lecturer;
+            }
+            else
+            {
+                throw new Exception("LectureRoom not found.");
+            }
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError("Exception caught: " + ex.Message);
+            throw new Exception("An error occurred while retrieving lecturer details.");
+        }
     }
 
     public async Task<LectureRoom?> LectureRoomEdit(LectureRoom lectureRoom, int[] subjectIdDst)
     {
-        var chosenSubjects = _context.Subject
-            .Where(s => subjectIdDst.Contains(s.Id))
-            .ToList();
-
-        var availableSubjects = _context.Subject
-            .Where(s => !subjectIdDst.Contains(s.Id))
-            .ToList();
-        lectureRoom.AvailableSubjects = availableSubjects;
-
-        foreach (var chosenSubject in chosenSubjects)
+        var existingLectureRoom = await _context.LectureRoom.FindAsync(lectureRoom.Id);
+        try
         {
-            lectureRoom.Subjects.Add(chosenSubject);
+            if (existingLectureRoom != null)
+            {
+                existingLectureRoom.Number = lectureRoom.Number;
+                existingLectureRoom.Floor = lectureRoom.Floor;
+
+
+
+
+                var chosenSubjects = await _context.Subject
+                    .Where(s => subjectIdDst.Contains(s.Id))
+                    .ToListAsync();
+                var availableSubjects = await _context.Subject
+                    .Where(s => !subjectIdDst.Contains(s.Id))
+                    .ToListAsync();
+                existingLectureRoom.Subjects = chosenSubjects;
+                existingLectureRoom.AvailableSubjects = availableSubjects;
+                 await _context.SaveChangesAsync();
+            }
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError("Exception caught: " + ex.Message);
         }
 
-        _context.Update(lectureRoom);
-        await _context.SaveChangesAsync();
-        return lectureRoom;
+        return existingLectureRoom;
     }
 
     public async Task<bool> LectureRoomDeleteConfirmed(int id)
@@ -376,5 +456,5 @@ public class DatabaseService : IDatabaseService
         return newStudent;
     }
 
-    #endregion // Public Methods
+    #endregion LectureRooms
 }

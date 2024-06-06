@@ -4,7 +4,6 @@ namespace Students.Interfaces;
 
 public interface IDatabaseService
 {
-    // bool EditStudent(int id, string name, int age, string major, int[] subjectIdDst);
 
     Student? DisplayStudent(int? id);
 
@@ -21,6 +20,8 @@ public interface IDatabaseService
     public Task<Student?> EditStudentView(int? id);
 
     public Task<Student> StudentEdit(Student student, int[] subjectIdDst);
+
+    public Task<bool> StudentDeleteConfirmed(int id);
 
     //Sybject
     public Task<List<Subject>> SubjectList();
