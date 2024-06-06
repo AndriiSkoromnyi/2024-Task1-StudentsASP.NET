@@ -208,28 +208,17 @@ public async Task<IActionResult> Edit([Bind("Id, Name, Age, Major, PostalCode")]
     public async Task<IActionResult> DeleteConfirmed(int id)
     {
         IActionResult result = View();
-        try
+        
         {
-            var student = await _context.Student.FindAsync(id);
-            if (student != null)
-            {
-                _context.Student.Remove(student);
-            }
-
-            await _context.SaveChangesAsync();
-            result = RedirectToAction(nameof(Index));
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine("Exception caught: " + ex.Message);
+            var student = await _databaseService.StudentDeleteConfirmed(id);
+            return RedirectToAction(nameof(Index));
         }
 
-        return result;
     }
 
     #endregion // Public Methods
 
-    #region Private Methods
+        #region Private Methods
 
     private bool StudentExists(int id)
     {

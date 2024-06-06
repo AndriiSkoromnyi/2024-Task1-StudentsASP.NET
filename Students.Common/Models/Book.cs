@@ -1,4 +1,5 @@
 ﻿using Students.Common.Attributes;
+using Students.Common.ValidationAttributes;
 using System.ComponentModel.DataAnnotations;
 
 namespace Students.Common.Models;
@@ -11,12 +12,8 @@ public class Book
     [Required]
     public string Name { get; set; } = string.Empty;
 
-    //[Range(1, 10)]
-    public string Author { get; set; }
-
-    //public List<Student> Students { get; set; } = new List<Student>();
-
-    //public ICollection<StudentBook> StudentBooks { get; set; } = new List<StudentBook>();
+    [NameValidation]
+    public string Author { get; set; } = string.Empty;
 
     public Book()
     {
